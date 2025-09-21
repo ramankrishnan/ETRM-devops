@@ -103,3 +103,86 @@ ETRM-devops/
 │        └─ test_dummy.py
 └─ README.md
 ```
+
+
+🚀 2. Containerization Basics
+
+We containerize the Trade Capture service using Docker so it can run consistently across environments. This ensures developers don’t face “works on my machine” issues.
+
+✅ Steps:
+
+Create a Dockerfile in the trade-capture/ folder:
+```
+# Dockerfile for Trade Capture Service
+
+# 1️⃣ Use an official Python base image
+FROM python:3.9-slim
+
+# 2️⃣ Set working directory
+WORKDIR /app
+
+# 3️⃣ Copy dependencies file
+COPY requirements.txt .
+
+# 4️⃣ Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 5️⃣ Copy source code
+COPY . .
+
+# 6️⃣ Expose service port
+EXPOSE 8000
+
+# 7️⃣ Run FastAPI app
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+Create a docker-compose.yml (for running service + Postgres together):
+```
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: etrm_postgres
+    environment:
+      POSTGRES_USER: etrm
+      POSTGRES_PASSWORD: etrm123
+      POSTGRES_DB: trades
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  trade-capture:
+    build: ./trade-capture
+    container_name: trade_capture_service
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://etrm:etrm123@postgres:5432/trades
+    ports:
+      - "8000:8000"
+
+volumes:
+  pgdata:
+
+```
+Run locally
+
+# Build and start containers
+docker-compose up --build
+
+
+👉 Visit the service at: http://localhost:8000
+
+Verification
+
+✅ Postgres is running on port 5432
+
+✅ FastAPI service is running on port 8000
+
+✅ Logs are visible via docker-compose logs -f
+
+⚡ Outcome:
+We now have a containerized Trade Capture microservice connected to Postgres, running locally with Docker Compose.
