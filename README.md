@@ -196,18 +196,22 @@ To run the CI/CD pipeline securely, we use GitHub Secrets to store sensitive inf
 Used for building and pushing Docker images.
 
 Secret Name	Purpose
+```
 ✅ DOCKERHUB_USERNAME	    --  Your Docker Hub username
 ✅ DOCKERHUB_TOKEN	      --   Docker Hub access token or password
 ✅ IMAGE_NAME	Full Docker image name, e.g., yourdockerhubusername/gravitas-trade-capture
+```
 🔹 2️⃣ Staging Server SSH
 
 Used for deploying containers via SSH.
 
 Secret Name	Purpose
+```
 ✅ STAGING_HOST	IP   --  address or hostname of your staging server
 ✅ STAGING_USER	  --  Username for SSH login on the staging server
 ✅ STAGING_PORT	  --  SSH port (usually 22)
 ✅ SSH_PRIVATE_KEY  --  	Private key for SSH authentication (do not store passwords)
+```
 🔹 3️⃣ Environment Variables
 
 Used to create .env file on staging without committing sensitive info.
