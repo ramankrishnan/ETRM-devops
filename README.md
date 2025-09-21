@@ -299,3 +299,112 @@ Push code to main or dev branch → GitHub Actions triggers pipeline.
 
 
 The Continuous Deployment (CD) pipeline automatically deploys your service to the staging environment whenever changes are pushed to the main branch.
+
+```
+name: CD to Staging
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-push-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        env:
+          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
+        run: |
+          docker build -t $IMAGE_NAME:${{ github.sha }} -f trade-capture/Dockerfile trade-capture
+          docker tag $IMAGE_NAME:${{ github.sha }} $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:${{ github.sha }}
+          docker push $IMAGE_NAME:latest
+
+      - name: Deploy to staging via SSH
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.STAGING_PORT }}
+          script: |
+            cd ~ || mkdir -p ~
+            if [ -d "gravitas-staging" ]; then
+              cd gravitas-staging
+              git reset --hard
+              git pull
+            else
+              git clone https://github.com/ramankrishnan/ETRM-devops.git gravitas-staging
+              cd gravitas-staging
+            fi
+
+            # Install Docker & Compose if missing
+            if ! command -v docker &> /dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+              curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+              sudo apt-get update
+              sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+            fi
+
+            # Write .env file from GitHub secret
+            echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
+
+            # Pull latest images and start services
+            sudo docker compose pull
+            sudo docker compose up -d --remove-orphans
+```
+📊 5️⃣ Monitoring & Logging (Beginner Feature)
+✅ Simple Logging
+
+Each container writes logs to stdout/stderr, which can be accessed using Docker commands.
+
+Example to view logs for a running container:
+
+# List running containers
+```
+docker ps
+```
+# View logs of a specific container
+```
+docker logs <container_name_or_id>
+```
+# Follow logs in real-time
+```
+docker logs -f <container_name_or_id>
+```
+✅ Monitoring
+
+To inspect container details and health:
+
+# Describe container status, ports, environment
+```
+docker inspect <container_name_or_id>
+```
+# Check container health and resource usage
+```
+docker stats <container_name_or_id>
+```
+💡 Future Considerations
+
+Logs can be collected centrally for better monitoring:
+
+Bind container logs to a host volume and forward to ELK Stack or CloudWatch.
+
+Use Docker logging drivers like json-file, awslogs, or fluentd.
