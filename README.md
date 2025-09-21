@@ -18,6 +18,9 @@ The goal is to enable developers to **push code frequently with confidence**, an
 
 ---
 
+🏗️ Architecture
+https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png
+
 ## ✅ What this repo provides  
 ✔️ Containerized service: **Trade Capture** (FastAPI + Postgres)  
 ✔️ `Dockerfile` for service and `docker-compose.yml` for local run  
