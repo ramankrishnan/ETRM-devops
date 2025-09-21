@@ -187,7 +187,43 @@ Verification
 ⚡ Outcome:
 We now have a containerized Trade Capture microservice connected to Postgres, running locally with Docker Compose.
 
+🔑 GitHub Secrets Setup
 
+To run the CI/CD pipeline securely, we use GitHub Secrets to store sensitive information like DockerHub credentials, SSH keys, and environment variables. These secrets are encrypted and won’t be visible in the repository.
+
+🔹 1️⃣ DockerHub Credentials
+
+Used for building and pushing Docker images.
+
+Secret Name	Purpose
+✅ DOCKERHUB_USERNAME	    --  Your Docker Hub username
+✅ DOCKERHUB_TOKEN	      --   Docker Hub access token or password
+✅ IMAGE_NAME	Full Docker image name, e.g., yourdockerhubusername/gravitas-trade-capture
+🔹 2️⃣ Staging Server SSH
+
+Used for deploying containers via SSH.
+
+Secret Name	Purpose
+✅ STAGING_HOST	IP   --  address or hostname of your staging server
+✅ STAGING_USER	  --  Username for SSH login on the staging server
+✅ STAGING_PORT	  --  SSH port (usually 22)
+✅ SSH_PRIVATE_KEY  --  	Private key for SSH authentication (do not store passwords)
+🔹 3️⃣ Environment Variables
+
+Used to create .env file on staging without committing sensitive info.
+
+Secret Name	Purpose
+✅ ENV_FILE_CONTENT	Full   --  content of your .env file, e.g.:
+```
+POSTGRES_USER=grv_user
+POSTGRES_PASSWORD=grv_pass
+POSTGRES_DB=grv_db
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+DATABASE_URL=postgresql://grv_user:grv_pass@db:5432/grv_db
+SERVICE_PORT=8000
+IMAGE_NAME=yourdockerhubusername/gravitas-trade-capture
+```
 
 
 
@@ -255,3 +291,11 @@ jobs:
 Push code to main or dev branch → GitHub Actions triggers pipeline.
 
 ✅ Dependencies installed
+
+
+🚀 4️⃣ CD Pipeline Setup (Staging)
+
+
+
+
+The Continuous Deployment (CD) pipeline automatically deploys your service to the staging environment whenever changes are pushed to the main branch.
