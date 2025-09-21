@@ -18,8 +18,12 @@ The goal is to enable developers to **push code frequently with confidence**, an
 
 ---
 
-🏗️ Architecture
-https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png
+## 🏗️ Architecture
+
+Here’s the high-level architecture of the Gravitas ETRM DevOps setup:
+
+[![Gravitas ETRM Architecture](https://github.com/ramankrishnan/ETRM-devops/raw/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)
+
 
 ## ✅ What this repo provides  
 ✔️ Containerized service: **Trade Capture** (FastAPI + Postgres)  
