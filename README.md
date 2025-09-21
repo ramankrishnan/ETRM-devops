@@ -40,8 +40,8 @@ The goal is to enable developers to **push code frequently with confidence**, an
 git clone https://github.com/ramankrishnan/ETRM-devops.git
 cd ETRM-devops
 
-
-
+```
+---
 ✅ Version Control Integration (GitHub / GitLab)
 Goal
 
