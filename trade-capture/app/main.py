@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
 import logging
 import os
 import psycopg2
@@ -10,10 +11,8 @@ logger.setLevel(logging.INFO)
 
 app = FastAPI(title="Gravitas ETRM - Trade Capture (dummy)")
 
-# Database URL from environment variable or default
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://grv_user:grv_pass@db:5432/grv_db")
 
-# Function to get database connection
 def get_db_conn():
     try:
         conn = psycopg2.connect(DATABASE_URL)
@@ -22,11 +21,53 @@ def get_db_conn():
         logger.error("DB connection error: %s", e)
         return None
 
-# Root endpoint
-@app.get("/")
+# Root endpoint - HTML page with background and centered bold title
+@app.get("/", response_class=HTMLResponse)
 def root():
-    logger.info("Root endpoint accessed")
-    return {"message": "Gravitas ETRM Trade Capture API running"}
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gravitas ETRM</title>
+        <style>
+            body {
+                background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e'); /* Change this to your image */
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+            h1 {
+                color: white;
+                font-size: 48px;
+                font-weight: bold;
+                text-align: center;
+                text-shadow: 2px 2px 5px black;
+            }
+            p {
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+                text-align: center;
+                text-shadow: 1px 1px 3px black;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>DevOps in Gravitas ETRM</h1>
+            <p>Welcome to the Trade Capture Service</p>
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
 
 # Ping endpoint
 @app.get("/ping")
