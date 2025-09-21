@@ -48,20 +48,18 @@ jobs:
           script: |
             cd ~ || mkdir -p ~
 
-            # If staging folder exists and is a git repo, pull latest changes
+            # Clone or update staging repository
             if [ -d "gravitas-staging" ]; then
               if [ -d "gravitas-staging/.git" ]; then
                 cd gravitas-staging
                 git reset --hard
                 git pull
               else
-                # Remove folder if not a git repo
                 rm -rf gravitas-staging
                 git clone https://github.com/ramankrishnan/ETRM-devops.git gravitas-staging
                 cd gravitas-staging
               fi
             else
-              # Clone repo if folder doesn't exist
               git clone https://github.com/ramankrishnan/ETRM-devops.git gravitas-staging
               cd gravitas-staging
             fi
@@ -75,22 +73,18 @@ jobs:
               sudo apt-get update
               sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
             fi
+
+            # Ensure Docker is running and permissions are correct
             sudo systemctl start docker
             sudo systemctl enable docker
             sudo usermod -aG docker ubuntu
+            sudo usermod -aG docker jenkins
             sudo systemctl restart docker
             sudo chmod 777 /var/run/docker.sock
-
-      # Add users to docker group for permission
-                
-      
-      
-      
 
             # Write .env file from GitHub secret
             echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
 
             # Pull latest images and start services
-            sudo docker compose pull
-            sudo docker compose up -d --remove-orphans
-
+            docker compose pull
+            docker compose up -d --remove-orphans
