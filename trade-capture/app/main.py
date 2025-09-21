@@ -61,7 +61,7 @@ def root():
     </head>
     <body>
         <div>
-            <h1>DevOps in Gravitas ETRM</h1>
+            <h1>DevOps in Gravitas ETRM !</h1>
             <p>Welcome to the Trade Capture Service</p>
         </div>
     </body>
