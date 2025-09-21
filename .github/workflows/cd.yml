@@ -75,6 +75,17 @@ jobs:
               sudo apt-get update
               sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
             fi
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker ubuntu
+            sudo systemctl restart docker
+            sudo chmod 777 /var/run/docker.sock
+
+      # Add users to docker group for permission
+                
+      
+      
+      
 
             # Write .env file from GitHub secret
             echo "${{ secrets.ENV_FILE_CONTENT }}" > .env
