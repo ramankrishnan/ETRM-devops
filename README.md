@@ -83,3 +83,23 @@ Create and push the dev branch:
 git checkout -b dev
 git push -u origin dev
 ```
+
+
+REPOSITORY STRUCTURE
+```
+ETRM-devops/
+├─ .github/workflows/
+│  ├─ ci.yml
+│  └─ cd.yml
+├─ docker-compose.yml
+├─ docker-compose.staging.yml
+├─ .env.example
+├─ trade-capture/
+│  ├─ Dockerfile
+│  ├─ requirements.txt
+│  └─ app/
+│     ├─ main.py
+│     └─ tests/
+│        └─ test_dummy.py
+└─ README.md
+```
