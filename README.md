@@ -39,3 +39,47 @@ The goal is to enable developers to **push code frequently with confidence**, an
 ```bash
 git clone https://github.com/ramankrishnan/ETRM-devops.git
 cd ETRM-devops
+
+
+
+✅ Version Control Integration (GitHub / GitLab)
+Goal
+
+Use Git to store source code and enforce a simple branch workflow so developers can push frequently and safely:
+
+dev — active development (CI runs)
+
+main — release/staging (CD runs)
+
+1. Repo setup (one-time)
+
+Create a new repository on GitHub (or GitLab).
+
+Name: ETRM-devops (or your chosen name)
+
+Default branch: main
+
+Locally (first push)
+
+# set your identity (one time)
+```
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+# initialize repo (if not cloned)
+```
+git init
+git remote add origin https://github.com/<your-username>/ETRM-devops.git
+
+# add files, commit and push main
+git add .
+git commit -m "chore: initial commit"
+git branch -M main
+git push -u origin main
+```
+
+Create and push the dev branch:
+```
+git checkout -b dev
+git push -u origin dev
+```
