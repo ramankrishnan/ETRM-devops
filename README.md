@@ -411,7 +411,12 @@ docker inspect <container_name_or_id>
 # Check container health and resource usage
 ```
 docker stats <container_name_or_id>
+
+
 ```
+
+[![OUTPUT](https://github.com/ramankrishnan/ETRM-devops/raw/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)
+[![Dockerhub](https://github.com/ramankrishnan/ETRM-devops/raw/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)
 💡 Future Considerations
 
 Logs can be collected centrally for better monitoring:
@@ -419,3 +424,5 @@ Logs can be collected centrally for better monitoring:
 Bind container logs to a host volume and forward to ELK Stack or CloudWatch.
 
 Use Docker logging drivers like json-file, awslogs, or fluentd.
+
+
