@@ -415,8 +415,8 @@ docker stats <container_name_or_id>
 
 ```
 
-[![OUTPUT](https://github.com/ramankrishnan/ETRM-devops/raw/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)
-[![Dockerhub](https://github.com/ramankrishnan/ETRM-devops/raw/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/deepseek_mermaid_20250921_adfbc9.png)
+[![OUTPUT](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/output.jpeg)
+[![Dockerhub]()
 💡 Future Considerations
 
 Logs can be collected centrally for better monitoring:
