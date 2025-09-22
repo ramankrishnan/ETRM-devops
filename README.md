@@ -416,7 +416,7 @@ docker stats <container_name_or_id>
 ```
 
 [![OUTPUT](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/output.jpeg)
-[![Dockerhub]()
+[![Dockerhub](https://github.com/ramankrishnan/ETRM-devops/blob/dev/scripts/Screenshot%20(224).png)
 💡 Future Considerations
 
 Logs can be collected centrally for better monitoring:
